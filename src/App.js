@@ -1,23 +1,32 @@
-import logo from './logo.svg';
 import './App.css';
+import { useState, useEffect } from "react"
+import { Routes, Route, Link } from "react-router-dom"
+import axios from "axios"
+import Dramas from './components/pages/Dramas';
+import DramaDetails from "./components/pages/DramaDetails"
+import Drama from "./components/pages/Drama"
+
 
 function App() {
+  const [dramas, setDramas] = useState([])
+
+  // console.log(process.env.REACT_APP_SERVER_URL)
+
+  useEffect(() => {
+    axios.get(process.env.REACT_APP_SERVER_URL + "/dramas")
+      .then(response => {
+        setDramas(response.data)
+      })
+  }, [dramas])
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <Routes>
+        <Route path="/dramas" element={<Dramas dramas={dramas} />} />
+        <Route path="/dramas/:id" element={<Drama />} />
+        
+        
+
+      </Routes>
     </div>
   );
 }
