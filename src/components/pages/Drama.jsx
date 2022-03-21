@@ -17,12 +17,12 @@ const Drama = () => {
                 setDrama(response.data)
             })
             .catch(console.log)
-    }, [showForm])
+    }, [showForm, id])
 
     const deleteDrama = (dramaToDelete) => {
         axios.delete(`${process.env.REACT_APP_SERVER_URL}/dramas/${dramaToDelete._id}`)
             .then(response => {
-                
+                console.log(response.data)
             })
             .catch(console.log)
     }
@@ -34,14 +34,15 @@ const Drama = () => {
                             drama={drama}
                             setShowForm={setShowForm}
                             showForm={showForm}
-                        /> : <DramaDetails drama={drama} />
+                        /> : <DramaDetails 
+                                drama={drama}
+                                deleteDrama={deleteDrama}
+                            />
         }
         <button onClick={() => {setShowForm(!showForm)}}>
-            { showForm ? "exit" : "edit"}
+            { showForm ? "exit" : "edit this drama"}
         </button>
-        <Link to="/dramas">
-            <button onClick={() => {deleteDrama(drama)}}>Delete</button>
-        </Link>
+      
     </div>
   )
 }
